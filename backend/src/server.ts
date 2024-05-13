@@ -6,6 +6,7 @@ import app, { PORT } from "@utilities/general";
  */
 
 import userRoute from "routes/user";
+import campgroundRoute from "routes/campground";
 
 /**
  * TODO: Create a general error handler
@@ -15,7 +16,8 @@ import userRoute from "routes/user";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/user", userRoute);
+app.use("/users", userRoute);
+app.use("/campgrounds", campgroundRoute);
 
 app.listen(PORT, () => {
   console.log(`LISTENING IN PORT ${PORT}`);
