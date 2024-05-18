@@ -1,22 +1,107 @@
-import logo from "@/assets/logo.png";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
+import { Home, Images, Menu, Album } from "lucide-react";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import Logo from "./logo";
+
+const links = [
+  {
+    icon: <Home />,
+    title: "Home",
+    to: "/",
+  },
+  {
+    icon: <Images />,
+    title: "Gallery",
+    to: "/gallery",
+  },
+  {
+    icon: <Album />,
+    title: "Blog",
+    to: "/blog",
+  },
+];
 
 function Header() {
-  return (
-    <header className="flex justify-between">
-      <div className="flex">
-        <img src={logo} alt="YelpCampPH" className="w-[60px] h-[60px]" />
-        {/* <span className="text-center m-auto text-sm">Yelp Camp PH</span> */}
-        <ul className="flex gap-4 my-auto">
-          <li>Home</li>
-          <li>Gallery</li>
-          <li>Blog</li>
-        </ul>
-      </div>
+  const isDesktop = useMediaQuery("(min-width:960px)");
 
-      <ul className="flex gap-2 my-auto">
-        <li>Sign in</li>
-        <li>Sign up</li>
-      </ul>
+  return (
+    <header className="flex justify-between my-auto">
+      {isDesktop ? (
+        <>
+          <div className="flex">
+            <Logo />
+            <NavigationMenu className="ml-4">
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  {links.map((link, index) => (
+                    <Link key={index} to={link.to}>
+                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        {link.title}
+                      </NavigationMenuLink>
+                    </Link>
+                  ))}
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+        </>
+      ) : (
+        <>
+          <Sheet>
+            <SheetTrigger className="my-auto" asChild>
+              <Button variant="outline">
+                <Menu size={16} />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <SheetHeader>
+                <SheetTitle>
+                  <Logo type="mobile" />
+                </SheetTitle>
+                <SheetDescription>
+                  <NavigationMenu>
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        {links.map((link, index) => (
+                          <Link key={index} to={link.to}>
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                              <span className="mr-2">{link.icon}</span>
+                              {link.title}
+                            </NavigationMenuLink>
+                          </Link>
+                        ))}
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                </SheetDescription>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
+
+          <Logo />
+        </>
+      )}
+
+      <Button variant="outline" className="my-auto">
+        Join now!
+      </Button>
     </header>
   );
 }
