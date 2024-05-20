@@ -5,6 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Landing from "./pages/Landing";
+import ThemeProvider from "./context/ThemeProvider";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,7 +18,9 @@ const router = createBrowserRouter(
 function App() {
   return (
     <>
+      {/* <ThemeProvider> */}
       <RouterProvider router={router} />
+      {/* </ThemeProvider> */}
     </>
   );
 }

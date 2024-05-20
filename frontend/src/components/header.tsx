@@ -20,6 +20,8 @@ import { Home, Images, Menu, Album } from "lucide-react";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import Logo from "./logo";
 
+import ThemeToggle from "./theme";
+
 const links = [
   {
     icon: <Home />,
@@ -40,6 +42,9 @@ const links = [
 
 function Header() {
   const isDesktop = useMediaQuery("(min-width:960px)");
+
+  // const [theme,setTheme] = useContext(ThemeContext);
+  // console.log(theme);
 
   return (
     <header className="flex justify-between my-auto">
@@ -99,9 +104,12 @@ function Header() {
         </>
       )}
 
-      <Button variant="outline" className="my-auto">
-        Join now!
-      </Button>
+      <div className="flex gap-4">
+        {/* <Button variant="outline" className="my-auto">
+          Join now!
+        </Button> */}
+        <ThemeToggle />
+      </div>
     </header>
   );
 }
