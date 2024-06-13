@@ -13,7 +13,7 @@ const campgroundSchema = new Schema<CampgroundInterface>({
   },
   type: {
     type: String,
-    enum: ["normal", "developer"],
+    enum: ["public", "private"],
   },
   location: {
     type: String,
