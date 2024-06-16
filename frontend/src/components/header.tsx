@@ -14,7 +14,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Home, Images, Menu, Album } from "lucide-react";
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -42,12 +42,12 @@ const links = [
 
 function Header() {
   const isDesktop = useMediaQuery("(min-width:960px)");
-
+  const location = useLocation();
   // const [theme,setTheme] = useContext(ThemeContext);
   // console.log(theme);
 
   return (
-    <header className="flex justify-between my-auto">
+    <header className="flex justify-between ">
       {isDesktop ? (
         <>
           <div className="flex">
@@ -56,7 +56,7 @@ function Header() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   {links.map((link, index) => (
-                    <Link key={index} to={link.to}>
+                    <Link className="" key={index} to={link.to}>
                       <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                         {link.title}
                       </NavigationMenuLink>
@@ -104,10 +104,16 @@ function Header() {
         </>
       )}
 
-      <div className="flex gap-4">
-        {/* <Button variant="outline" className="my-auto">
-          Join now!
-        </Button> */}
+      <div className="flex gap-4 my-auto">
+        {location.pathname !== "/login" ? (
+          <Link to="/login">
+            <Button size="lg" className="lg:text-xl">
+              Login
+            </Button>
+          </Link>
+        ) : (
+          ""
+        )}
         <ThemeToggle />
       </div>
     </header>

@@ -27,6 +27,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, CalendarDays, Map, Users } from "lucide-react";
+import Footer from "@/components/footer";
+import Container from "@/components/container";
 
 function Landing() {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -39,43 +41,43 @@ function Landing() {
   };
 
   return (
-    <div className=" h-screen flex flex-col m-4">
+    <Container>
       <Header />
-      <div className=" flex-auto">
-        <div className="my-4    xl:bg-green-500">
-          <div className="flex justify-center p-4">
+      <div className="">
+        <div className="my-4  flex flex-col xl:flex-row relative ">
+          <div className="flex justify-center p-4 xl:order-2 ">
             <img
               src={landing1}
               alt=""
-              className="w-[420px] h-[320px] lg:w-[600px] lg:h-[400px] z-10 rounded-lg"
+              className="w-[420px] h-[320px] xl:w-[2000px] xl:h-full z-10 rounded-lg"
             />
-            {/* <div className=" bg-orange-500 w-[100%] absolute bottom-0 h-[40%] ml-8 "></div> */}
           </div>
 
           <div className="my-10">
-            <p className=" text-center text-primary md:text-lg lg:text-xl">Get your experience</p>
-            <p className=" text-xl text-center font-bold md:text-2xl lg:text-3xl ">
-              Feel the heart of <span className="text-primary">PHILIPPINES</span> Ecotourism
-            </p>
+            <div className="p-4">
+              <p className=" text-center text-primary md:text-lg xl:text-xl xl:text-left 2xl:text-3xl">
+                Get your experience
+              </p>
+              <p className=" text-xl text-center font-bold md:text-2xl xl:text-7xl xl:text-left 2xl:text-9xl">
+                Feel the heart of <span className="text-primary">PHILIPPINES</span> Ecotourism
+              </p>
+            </div>
 
-            <p className=" my-4 text-center p-4 md:text-lg">
+            <p className="my-4 text-center text-muted-foreground p-4 md:text-lg xl:w-[90%]  xl:text-justify 2xl:text-2xl">
               Rediscover your soul and conscience as you explore the breathtaking beauty of life at
               our campsite. Immerse yourself in nature&apos;s wonders, and let us be your guide to
-              an unforgettable experience. We are here to serve you and ensure that every moment is
-              filled with happiness and satisfaction. Your joy is our mission, and your serenity is
-              our promise. Join us and embrace the adventure that awaits.
+              an unforgettable experience.
             </p>
-          </div>
 
-          <div className="p-4">
-            <div className="flex flex-col justify-center p-4 border border-solid border-primary rounded-lg">
-              <div className="flex flex-col my-2">
-                <div className="flex mb-1">
-                  <Map className="my-auto mr-1" size={16} />
-                  <p className="text-sm mb-1 font-bold">WHERE</p>
-                </div>
-                <Input placeholder="Location" />
-                {/* <Select>
+            <div className="p-4">
+              <div className="grid grid-cols-1  p-3 border border-solid border-primary rounded-lg xl:grid-cols-4  xl:gap-2">
+                <div className="flex flex-col my-2">
+                  <div className="flex mb-1">
+                    <Map className="my-auto mr-1" size={16} />
+                    <p className="text-sm mb-1 font-bold">WHERE</p>
+                  </div>
+                  <Input placeholder="Location" />
+                  {/* <Select>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select a fruit" />
                 </SelectTrigger>
@@ -90,83 +92,84 @@ function Landing() {
                   </SelectGroup>
                 </SelectContent>
               </Select> */}
-              </div>
-
-              <div className="flex flex-col my-2">
-                <div className="flex mb-1">
-                  <CalendarDays className="my-auto mr-1" size={16} />
-                  <p className="text-sm mb-1 font-bold">DATES</p>
                 </div>
-                <div className="flex">
-                  <Input onClick={handleInputClick} />
-                  <Dialog>
-                    <DialogTrigger ref={triggerDialogRef} hidden>
-                      <CalendarDays size={16} />
-                    </DialogTrigger>
-                    <DialogContent>
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={setDate}
-                        className="rounded-md border shadow"
-                      />
-                    </DialogContent>
-                  </Dialog>
+
+                <div className="flex flex-col my-2">
+                  <div className="flex mb-1">
+                    <CalendarDays className="my-auto mr-1" size={16} />
+                    <p className="text-sm mb-1 font-bold">DATES</p>
+                  </div>
+                  <div className="flex">
+                    <Input onClick={handleInputClick} />
+                    <Dialog>
+                      <DialogTrigger ref={triggerDialogRef} hidden>
+                        <CalendarDays size={16} />
+                      </DialogTrigger>
+                      <DialogContent>
+                        <Calendar
+                          mode="single"
+                          selected={date}
+                          onSelect={setDate}
+                          className="rounded-md border shadow"
+                        />
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col my-2">
-                <div className="flex mb-1">
-                  <Users className="my-auto mr-1" size={16} />
-                  <p className="text-sm mb-1 font-bold">GUESS</p>
-                </div>{" "}
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a fruit" />
-                  </SelectTrigger>
-                  <SelectContent className="w-full">
-                    <SelectGroup className="">
-                      <SelectLabel>Fruits</SelectLabel>
-                      <SelectItem value="apple">Apple</SelectItem>
-                      <SelectItem value="banana">Banana</SelectItem>
-                      <SelectItem value="blueberry">Blueberry</SelectItem>
-                      <SelectItem value="grapes">Grapes</SelectItem>
-                      <SelectItem value="pineapple">Pineapple</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
+                <div className="flex flex-col my-2">
+                  <div className="flex mb-1">
+                    <Users className="my-auto mr-1" size={16} />
+                    <p className="text-sm mb-1 font-bold">GUESS</p>
+                  </div>{" "}
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a fruit" />
+                    </SelectTrigger>
+                    <SelectContent className="w-full">
+                      <SelectGroup className="">
+                        <SelectLabel>Fruits</SelectLabel>
+                        <SelectItem value="apple">Apple</SelectItem>
+                        <SelectItem value="banana">Banana</SelectItem>
+                        <SelectItem value="blueberry">Blueberry</SelectItem>
+                        <SelectItem value="grapes">Grapes</SelectItem>
+                        <SelectItem value="pineapple">Pineapple</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <Button className="my-4">SEARCH</Button>
+                <Button className=" h-full">SEARCH</Button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col p-4  xl:bg-green-500">
-        <p className="text-xl text-center font-bold md:text-3xl lg:text-4xl">
+      <div className="flex flex-col gap-4 p-4  lg:flex-row ">
+        <p className="text-xl my-auto text-center font-bold md:text-3xl lg:text-left 2xl:text-5xl 2xl:w-[50%]">
           For over 20 Years we have been helping people Find the best place for healing
         </p>
-        <div className="my-3">
-          <div className="text-center my-8">
+        <div className="my-3 flex flex-col lg:flex-row gap-8">
+          <div className="text-center my-8 mx-1">
             <p className="text-2xl text-primary font-bold md:text-3xl lg:text-4xl mb-2">1M++</p>
-            <p className="md:text-lg lg:text-xl">Helping People Find the best place for healing</p>
+            <p className="md:text-lg text-pretty">Helping People Find the best place for healing</p>
           </div>
-          <div className="text-center my-8 mb-2">
-            <p className="text-2xl text-primary font-bold md:text-3xl lg:text-4xl">20 Years</p>
+          <div className="text-center my-8 ">
+            <p className="text-2xl text-primary font-bold md:text-3xl lg:text-4xl mb-2">20 Years</p>
             <p className="md:text- lg:text-xl">Years of experience on camping rent</p>
           </div>
           <div className="text-center my-8 mb-2">
-            <p className="text-2xl text-primary font-bold md:text-3xl lg:text-4xl">100++</p>
-            <p className="md:text-lg lg:text-xl">Number of best place for your healing</p>
+            <p className="text-2xl text-primary font-bold md:text-3xl lg:text-4xl mb-2">100++</p>
+            <p className="md:text-lg text-pretty">Number of best place for your healing</p>
           </div>
         </div>
       </div>
 
-      <div className="p-4  xl:bg-green-500 my-4">
-        <img src={landing2} alt="" className="rounded-xl m-auto" />
+      <div className="p-4 xl:flex xl:gap-4 my-4">
+        <img src={landing2} alt="" className="rounded-xl xl:w-full xl:h-full m-auto" />
 
-        <div className=" p-4 my-4 bg-primary flex flex-col ">
+        <div className=" p-4 my-4 bg-primary flex flex-col rounded-xl 2xl:my-0">
           <h1 className="text-2xl text-center md:text-3xl">Who Are We</h1>
           <div>
             <p className="text-sm my-4 text-center md:text-lg">
@@ -203,15 +206,15 @@ function Landing() {
         </div>
       </div>
 
-      <div className="   xl:bg-green-500 p-4">
-        <h1 className="my-4 text-2xl text-center font-bold">
+      <div className="p-4">
+        <h1 className="my-4 text-2xl text-center font-bold xl:text-4xl 2xl:text-5xl">
           Where to Go <span className="text-primary">Now?</span>
         </h1>
 
         <div className=" grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="relative md:text-xl ">
             <div className="relative">
-              <img src={where1} alt="" className=" rounded-lg  lg:h-[400px]" />
+              <img src={where1} alt="" className=" rounded-lg w-full  lg:h-[400px] my-auto" />
             </div>
             <div className="h-[60px]"></div>
             <div className="absolute bottom-0 mt-4 py-4 px-14 text-center  my-auto w-full ">
@@ -224,7 +227,7 @@ function Landing() {
 
           <div className="relative md:text-xl ">
             <div className="relative">
-              <img src={where1} alt="" className=" rounded-lg  lg:h-[400px]" />
+              <img src={where1} alt="" className=" rounded-lg w-full  lg:h-[400px]" />
             </div>
             <div className="h-[60px]"></div>
             <div className="absolute bottom-0 mt-4 py-4 px-14 text-center  my-auto w-full ">
@@ -237,7 +240,7 @@ function Landing() {
 
           <div className="relative md:text-xl ">
             <div className="relative">
-              <img src={where1} alt="" className=" rounded-lg  lg:h-[400px]" />
+              <img src={where1} alt="" className=" rounded-lg w-full  lg:h-[400px]" />
             </div>
             <div className="h-[60px]"></div>
             <div className="absolute bottom-0 mt-4 py-4 px-14 text-center  my-auto w-full ">
@@ -250,8 +253,8 @@ function Landing() {
         </div>
       </div>
 
-      <div className="   xl:bg-green-500 my-4 p-4 ">
-        <h1 className="text-2xl my-4 text-center font-bold lg:text-left">
+      <div className="my-4 p-4 ">
+        <h1 className="text-2xl my-4 text-center font-bold lg:text-left xl:text-4xl 2xl:text-5xl">
           Discover <span className="text-primary">Top Sports</span> Near You
         </h1>
 
@@ -311,8 +314,8 @@ function Landing() {
       <div>
         <div className="flex flex-col my-4">
           <div className="my-4">
-            <h1 className="text-2xl my-4 text-center font-bold ">
-              <span className="text-2xl text-primary">Inspired</span> for Healing
+            <h1 className="text-2xl my-4 text-center font-bold xl:text-4xl 2xl:text-5xl">
+              <span className=" text-primary">Inspired</span> for Healing
             </h1>
             <p className="text-center">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate quis ducimus
@@ -324,7 +327,8 @@ function Landing() {
           <Button variant="outline">View All</Button>
         </div>
       </div>
-    </div>
+      <Footer />
+    </Container>
   );
 }
 
