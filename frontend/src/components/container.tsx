@@ -5,7 +5,9 @@ function Container({ children }: { children: ReactNode }) {
   const location = useLocation();
   return (
     <div
-      className={`h-screen flex flex-col ${location.pathname !== "/dashboard" ? "mx-4" : "mx-2"} `}
+      className={`h-screen flex flex-col ${
+        location.pathname.includes("/dashboard") ? "mx-0" : "mx-4"
+      } `}
     >
       {children}
     </div>

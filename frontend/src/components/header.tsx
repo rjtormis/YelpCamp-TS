@@ -47,12 +47,12 @@ function Header() {
   // console.log(theme);
 
   return (
-    <header className="flex justify-between ">
+    <header className="flex justify-between">
       {isDesktop ? (
         <>
           <div className="flex">
             <Logo />
-            {location.pathname !== "/dashboard" ?? (
+            {!location.pathname.includes("/dashboard") ? (
               <NavigationMenu className="ml-4">
                 <NavigationMenuList>
                   <NavigationMenuItem>
@@ -66,6 +66,8 @@ function Header() {
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
+            ) : (
+              ""
             )}
           </div>
         </>
