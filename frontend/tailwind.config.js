@@ -16,6 +16,9 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    backgroundImage: {
+      login: "url('./src/assets/login.jpg')",
+    },
     extend: {
       colors: {
         border: "var(--border)",

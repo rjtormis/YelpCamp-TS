@@ -6,6 +6,10 @@ const userSchema = new Schema<UserInterface>({
     type: String,
     required: [true, "Please provide your name"],
   },
+  username: {
+    type: String,
+    required: [true, "Please provide your name"],
+  },
   provider: {
     type: String,
     required: true,

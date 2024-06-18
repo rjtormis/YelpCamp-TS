@@ -52,19 +52,21 @@ function Header() {
         <>
           <div className="flex">
             <Logo />
-            <NavigationMenu className="ml-4">
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  {links.map((link, index) => (
-                    <Link className="" key={index} to={link.to}>
-                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        {link.title}
-                      </NavigationMenuLink>
-                    </Link>
-                  ))}
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+            {location.pathname !== "/dashboard" ?? (
+              <NavigationMenu className="ml-4">
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    {links.map((link, index) => (
+                      <Link className="" key={index} to={link.to}>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                          {link.title}
+                        </NavigationMenuLink>
+                      </Link>
+                    ))}
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            )}
           </div>
         </>
       ) : (
@@ -105,7 +107,7 @@ function Header() {
       )}
 
       <div className="flex gap-4 my-auto">
-        {location.pathname !== "/login" ? (
+        {location.pathname !== "/login" && location.pathname !== "/dashboard" ? (
           <Link to="/login">
             <Button size="lg" className="lg:text-xl">
               Login

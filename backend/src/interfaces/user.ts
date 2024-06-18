@@ -8,4 +8,5 @@ export interface UserInterface extends Document {
   image: string;
   location: string;
   provider: string;
+  username: string;
 }
