@@ -46,13 +46,15 @@ function Header() {
   // const [theme,setTheme] = useContext(ThemeContext);
   // console.log(theme);
 
+  console.log(!location.pathname.includes("dashboard"));
+
   return (
     <header className="flex justify-between">
       {isDesktop ? (
         <>
           <div className="flex">
             <Logo />
-            {!location.pathname.includes("/dashboard") ? (
+            {!location.pathname.includes("dashboard") ? (
               <NavigationMenu className="ml-4">
                 <NavigationMenuList>
                   <NavigationMenuItem>
@@ -109,7 +111,7 @@ function Header() {
       )}
 
       <div className="flex gap-4 my-auto">
-        {location.pathname !== "/login" && location.pathname !== "/dashboard" ? (
+        {location.pathname !== "/login" && !location.pathname.includes("dashboard") ? (
           <Link to="/login">
             <Button size="lg" className="lg:text-xl">
               Login
