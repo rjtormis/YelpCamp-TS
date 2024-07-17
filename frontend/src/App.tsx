@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Main from "./pages/Dashboard/Main";
 import Inbox from "./pages/Dashboard/Inbox";
+import Profile from "./pages/Dashboard/Profile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<Main />} />
         <Route path="inbox" element={<Inbox />} />
+        <Route path="profile" element={<Profile />} />
       </Route>
     </>
   )

@@ -49,9 +49,11 @@ function DashboardLayout() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost">
-                      <Users />
-                    </Button>
+                    <Link to="/dashboard/profile">
+                      <Button variant="ghost">
+                        <Users />
+                      </Button>
+                    </Link>
                   </TooltipTrigger>
                   <TooltipContent side="right">
                     <p>Profile</p>
