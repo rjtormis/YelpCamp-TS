@@ -12,7 +12,6 @@ import {
   Telescope,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Link } from "react-router-dom";
 import ListingCard from "@/components/listing-card";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 
