@@ -65,9 +65,11 @@ function DashboardLayout() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost">
-                      <AlignJustify />
-                    </Button>
+                    <Link to="/dashboard/listings">
+                      <Button variant="ghost">
+                        <AlignJustify />
+                      </Button>
+                    </Link>
                   </TooltipTrigger>
                   <TooltipContent side="right">
                     <p>Listings</p>
