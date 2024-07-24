@@ -12,8 +12,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FormikSignup } from "@/interfaces/formik";
+import { signupSchema } from "@/schema/schema";
+import { Formik, Form, Field, FieldProps } from "formik";
+import { useState } from "react";
 
 function Login() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const initialSignUpValue: FormikSignup = {
+    name: "",
+    emailAddress: "",
+    password: "",
+    confirmPassword: "",
+    provider: "EMAIL",
+    location: "",
+    username: "",
+  };
+
+  const handleSignUp = () => {
+    setLoading(false);
+  };
+
   return (
     <Container>
       <Header />
@@ -53,41 +72,108 @@ function Login() {
               </Card>
             </TabsContent>
             <TabsContent value="signup">
-              <Card className="bg-white bg-opacity-25">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center font-bold">Sign Up</CardTitle>
-                  <CardDescription className="text-center my-2">
-                    Join our community to find and book unique camping experiences!
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" placeholder="Pedro Duarte" />
-                    </div>
-                    <div className="space-y-1">
-                      <Label htmlFor="username">Username</Label>
-                      <Input id="username" placeholder="@pedro" />
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="username">Email</Label>
-                    <Input id="username" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="username">Password</Label>
-                    <Input id="username" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="username">Confirm Password</Label>
-                    <Input id="username" defaultValue="@peduarte" />
-                  </div>
-                </CardContent>
-                <CardFooter className="flex">
-                  <Button className="w-full">Sign up</Button>
-                </CardFooter>
-              </Card>
+              <Formik
+                initialValues={initialSignUpValue}
+                onSubmit={handleSignUp}
+                validationSchema={signupSchema}
+              >
+                {({ isValid, dirty }) => (
+                  <Form>
+                    <Card className="bg-white bg-opacity-25">
+                      <CardHeader>
+                        <CardTitle className="text-2xl text-center font-bold">Sign Up</CardTitle>
+                        <CardDescription className="text-center my-2">
+                          Join our community to find and book unique camping experiences!
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                          <Field name="name">
+                            {({ field, meta }: FieldProps) => (
+                              <div className="space-y-1">
+                                <Label htmlFor="name">
+                                  Name
+                                  {meta.touched && meta.error ? (
+                                    <span className="text-red-500 ml-1">{meta.error}</span>
+                                  ) : null}
+                                </Label>
+                                <Input id="name" placeholder="Pedro Duarte" {...field} />
+                              </div>
+                            )}
+                          </Field>
+
+                          <Field name="username">
+                            {({ field, meta }: FieldProps) => (
+                              <div className="space-y-1">
+                                <Label htmlFor="username">
+                                  Username
+                                  {meta.touched && meta.error ? (
+                                    <span className="text-red-500 ml-1">{meta.error}</span>
+                                  ) : null}
+                                </Label>
+                                <Input id="username" placeholder="@pedro" {...field} />
+                              </div>
+                            )}
+                          </Field>
+                        </div>
+
+                        <Field name="emailAddress">
+                          {({ field, meta }: FieldProps) => (
+                            <div className="space-y-1">
+                              <Label htmlFor="emailAddress">
+                                Email
+                                {meta.touched && meta.error ? (
+                                  <span className="text-red-500 ml-1">{meta.error}</span>
+                                ) : null}
+                              </Label>
+                              <Input id="emailAddress" {...field} />
+                            </div>
+                          )}
+                        </Field>
+
+                        <Field name="password">
+                          {({ field, meta }: FieldProps) => (
+                            <div className="space-y-1">
+                              <Label htmlFor="password">
+                                Password
+                                {meta.touched && meta.error ? (
+                                  <span className="text-red-500 ml-1">{meta.error}</span>
+                                ) : null}
+                              </Label>
+                              <Input id="password" {...field} />
+                            </div>
+                          )}
+                        </Field>
+
+                        <Field name="confirmPassword">
+                          {({ field, meta }: FieldProps) => (
+                            <div className="space-y-1">
+                              <Label htmlFor="confirmPassword">
+                                Confirm Password
+                                {meta.touched && meta.error ? (
+                                  <span className="text-red-500 ml-1">{meta.error}</span>
+                                ) : null}
+                              </Label>
+                              <Input id="confirmPassword" {...field} />
+                            </div>
+                          )}
+                        </Field>
+                      </CardContent>
+                      <CardFooter className="flex">
+                        <Button
+                          className={`w-full ${
+                            isValid
+                              ? "pointer-events-none opacity-[70%] hover:cursor-not-allowed"
+                              : ""
+                          } `}
+                        >
+                          Sign up
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  </Form>
+                )}
+              </Formik>
             </TabsContent>
           </Tabs>
         </div>
