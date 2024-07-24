@@ -10,9 +10,10 @@ import { CustomError } from "@utilities/general";
  * @param password - password of the user
  * @param emailAddress - current email address used to register
  * @param provider - determine if they are using socials to login.
+ * @param username - username
  */
 const createUser = wrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const { name, password, emailAddress, location, provider } = req.body;
+  const { name, password, emailAddress, location, provider, username } = req.body;
 
   const queryUser = await User.findOne({ emailAddress: emailAddress });
 
@@ -27,6 +28,7 @@ const createUser = wrapper(async (req: Request, res: Response, next: NextFunctio
       const passwordHash = await bcrypt.hash(password, salt);
 
       const defaultUser = new User({
+        username,
         name,
         password: passwordHash,
         emailAddress,
@@ -36,6 +38,9 @@ const createUser = wrapper(async (req: Request, res: Response, next: NextFunctio
       await defaultUser.save();
 
       return res.json({ message: "User created successfully", user: defaultUser });
+
+    default:
+      return res.status(400).json({ message: "Invalid provider" });
   }
 });
 

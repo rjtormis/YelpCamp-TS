@@ -4,6 +4,7 @@ dotenv.config();
 
 // Backend port
 export const PORT: number = parseInt(process.env.PORT as string);
+export const DATABASE: string = process.env.DATABASE as string;
 const app = express();
 
 /**
