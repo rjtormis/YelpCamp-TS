@@ -3,7 +3,11 @@ export interface FormikSignup {
   password: string;
   confirmPassword: string;
   emailAddress: string;
-  location: string;
   provider: string;
   username: string;
+}
+
+export interface FormikSignin {
+  usernameOrEmail: string;
+  password: string;
 }
