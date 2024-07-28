@@ -20,7 +20,6 @@ const userSchema = new Schema<UserInterface>({
   },
   emailAddress: {
     type: String,
-    required: [true, "Please provide a valid email address"],
   },
   allowNotifications: {
     type: Boolean,
@@ -30,6 +29,9 @@ const userSchema = new Schema<UserInterface>({
     type: String,
   },
   location: {
+    type: String,
+  },
+  biography: {
     type: String,
   },
 });

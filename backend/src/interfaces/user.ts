@@ -9,4 +9,5 @@ export interface UserInterface extends Document {
   location: string;
   provider: string;
   username: string;
+  biography: string;
 }
