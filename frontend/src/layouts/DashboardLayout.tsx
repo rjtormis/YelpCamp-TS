@@ -1,12 +1,17 @@
 import Container from "@/components/container";
 import Header from "@/components/header";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AlignJustify, LayoutDashboard, LogOut, Mail, Users } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Link } from "react-router-dom";
 
 function DashboardLayout() {
+  const navigate = useNavigate();
+
+  const handleUserLogout = () => {
+    navigate("/");
+  };
   return (
     <Container>
       <Header />
@@ -81,7 +86,7 @@ function DashboardLayout() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost">
+                    <Button variant="ghost" onClick={handleUserLogout}>
                       <LogOut />
                     </Button>
                   </TooltipTrigger>

@@ -15,6 +15,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FormikSignin, FormikSignup } from "@/interfaces/formik";
 import { signInSchema, signUpSchema } from "@/schema/schema";
 import { Formik, Form, Field, FieldProps } from "formik";
+import { SocialIcon } from "react-social-icons";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 // import { useState } from "react";
 
 function Login() {
@@ -36,6 +38,14 @@ function Login() {
 
   const handleSignUp = () => {
     // setLoading(false);
+  };
+
+  const handleSocialFacebook = async () => {
+    window.location.href = "http://localhost:3000/auth/facebook";
+  };
+
+  const handleSocialGoogle = () => {
+    window.location.href = "http://localhost:3000/auth/google";
   };
 
   const handleSignIn = () => {};
@@ -236,6 +246,37 @@ function Login() {
               </Formik>
             </TabsContent>
           </Tabs>
+          <div className="p-4 flex justify-center gap-4">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SocialIcon
+                    network="facebook"
+                    className="hover:cursor-pointer"
+                    onClick={handleSocialFacebook}
+                  />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>Login via Facebook</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SocialIcon
+                    network="google"
+                    className="hover:cursor-pointer"
+                    onClick={handleSocialGoogle}
+                  />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>Login Via Google</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
       </div>
     </Container>

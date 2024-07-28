@@ -46,8 +46,6 @@ function Header() {
   // const [theme,setTheme] = useContext(ThemeContext);
   // console.log(theme);
 
-  console.log(!location.pathname.includes("dashboard"));
-
   return (
     <header className="flex justify-between">
       {isDesktop ? (
