@@ -17,10 +17,17 @@ import { signInSchema, signUpSchema } from "@/schema/schema";
 import { Formik, Form, Field, FieldProps } from "formik";
 import { SocialIcon } from "react-social-icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/components/ui/use-toast";
+// import { ToastAction } from "@/components/ui/toast";
+import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
+import { ServerError } from "@/interfaces/axios";
 // import { useState } from "react";
 
 function Login() {
-  // const [loading, setLoading] = useState<boolean>(false);
+  const { toast } = useToast();
+  const currentDate = new Date().toLocaleString().replace(",", "");
+  const navigate = useNavigate();
 
   const initialSignUpValue: FormikSignup = {
     name: "",
@@ -36,7 +43,28 @@ function Login() {
     password: "",
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async (state: FormikSignup) => {
+    try {
+      const data = await axios.post("http://localhost:3000/users", state);
+      if (data.status === 200) {
+        toast({
+          title: "Success!",
+          description: `Welcome to YelpCampPH! Your account was successfully created on ${currentDate}. Start exploring and booking amazing campsites today!`,
+        });
+        navigate("/dashboard");
+      }
+    } catch (e) {
+      const error = e as AxiosError<ServerError>;
+      const { status, message } = error.response!.data;
+      if (status === 409) {
+        toast({
+          title: "Oops!",
+          variant: "destructive",
+          description: `${message}`,
+        });
+      }
+    }
+
     // setLoading(false);
   };
 
@@ -48,7 +76,9 @@ function Login() {
     window.location.href = "http://localhost:3000/auth/google";
   };
 
-  const handleSignIn = () => {};
+  const handleSignIn = async (state: FormikSignin) => {
+    console.log(state);
+  };
 
   return (
     <Container>
@@ -166,18 +196,18 @@ function Login() {
                               )}
                             </Field>
 
-                            <Field name="password">
+                            <Field name="username">
                               {({ field, meta }: FieldProps) => (
                                 <div className="space-y-1">
-                                  <Label htmlFor="password">
+                                  <Label htmlFor="username">
                                     Username
                                     {meta.touched && meta.error ? (
                                       <span className="text-red-500 ml-1">{meta.error}</span>
                                     ) : null}
                                   </Label>
                                   <Input
-                                    id="password"
-                                    type="password"
+                                    id="username"
+                                    type="username"
                                     placeholder="@pedro"
                                     {...field}
                                   />
@@ -195,7 +225,7 @@ function Login() {
                                     <span className="text-red-500 ml-1">{meta.error}</span>
                                   ) : null}
                                 </Label>
-                                <Input id="emailAddress" {...field} />
+                                <Input id="emailAddress" type="email" {...field} />
                               </div>
                             )}
                           </Field>
@@ -209,7 +239,7 @@ function Login() {
                                     <span className="text-red-500 ml-1">{meta.error}</span>
                                   ) : null}
                                 </Label>
-                                <Input id="password" {...field} />
+                                <Input id="password" type="password" {...field} />
                               </div>
                             )}
                           </Field>
@@ -223,7 +253,7 @@ function Login() {
                                     <span className="text-red-500 ml-1">{meta.error}</span>
                                   ) : null}
                                 </Label>
-                                <Input id="confirmPassword" {...field} />
+                                <Input id="confirmPassword" type="password" {...field} />
                               </div>
                             )}
                           </Field>
