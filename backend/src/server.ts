@@ -1,18 +1,16 @@
-import express, { Request } from "express";
+import express, { Request, Response, NextFunction, json, urlencoded } from "express";
 import app, {
-  CustomError,
   FACEBOOK_APP_ID,
   FACEBOOK_APP_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   PORT,
-  YELPCAMP_APP_SECRET_KEY,
 } from "@utilities/general";
+import { Jwt } from "jsonwebtoken";
 import morgan from "morgan";
 import passport from "passport";
 import passportFacebook from "passport-facebook";
 import passportGoogle from "passport-google-oauth20";
-import { ExtractJwt, Strategy } from "passport-jwt";
 import cors from "cors";
 import { connectMoongoseDB } from "@utilities/database";
 import User from "models/user";
@@ -37,15 +35,10 @@ connectMoongoseDB();
 const FacebookStrategy = passportFacebook.Strategy;
 const GoogleStrategy = passportGoogle.Strategy;
 
-// const opts = {
-//   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-//   secretOrKey: YELPCAMP_APP_SECRET_KEY,
-// };
-
 app.use(express.json());
 
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -74,7 +67,7 @@ passport.use(
 
       const { email } = profile._json;
 
-      const userExists = await User.findOne({ username: facebookProfileId });
+      const userExists = await User.findOne({ username: facebookProfileId, provider: "FACEBOOK" });
 
       if (!userExists) {
         const newUser = new User({
@@ -108,7 +101,7 @@ passport.use(
       const googleProfileId = `google-${profile.id}`;
       const { picture, email } = profile._json;
 
-      const userExists = await User.findOne({ username: googleProfileId });
+      const userExists = await User.findOne({ username: googleProfileId, provider: "GOOGLE" });
       if (!userExists) {
         const newUser = new User({
           username: googleProfileId,
@@ -125,21 +118,19 @@ passport.use(
   )
 );
 
-// passport.use(
-//   new Strategy(opts, async (payload, done) => {
-//     // TODO:Implement JWT strat
-//     // try {
-//     //   const user = UserModel.findById(payload.id);
-//     //   if (user) return done(null, user);
-//     // } catch (error) {
-//     //   return done(error);
-//     // }
-//   })
-// );
-
 app.use("/auth", authRouter);
 app.use("/users", userRoute);
 app.use("/campgrounds", campgroundRoute);
+
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  const { status = 500, message, field } = err;
+
+  if (field) {
+    res.status(status).json({ status: status, field: field, message: message });
+  } else {
+    res.status(status).json({ status: status, message: message });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`LISTENING IN PORT ${PORT}`);

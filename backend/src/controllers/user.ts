@@ -3,6 +3,7 @@ import bcrypt, { genSalt } from "bcrypt";
 import wrapper from "@utilities/wrapper";
 import User from "models/user";
 import { CustomError } from "@utilities/general";
+import { Jwt } from "jsonwebtoken";
 
 /**
  * Creates a new user
@@ -13,35 +14,27 @@ import { CustomError } from "@utilities/general";
  * @param username - username
  */
 const createUser = wrapper(async (req: Request, res: Response, next: NextFunction) => {
-  const { name, password, emailAddress, location, provider, username } = req.body;
+  const { name, password, emailAddress, username } = req.body;
 
-  const queryUser = await User.findOne({ emailAddress: emailAddress });
+  const queryUser = await User.findOne({ emailAddress: emailAddress, provider: "DEFAULT" });
 
-  if (queryUser) return next(new CustomError("User already Exists. Please try again.", 409));
+  if (queryUser)
+    return next(new CustomError("Account already Exists. Please login or try again.", 409));
 
-  /**
-   * TODO: Handle Socials
-   */
-  switch (provider) {
-    case "default":
-      const salt = await bcrypt.genSalt(10);
-      const passwordHash = await bcrypt.hash(password, salt);
+  const salt = await bcrypt.genSalt(10);
+  const passwordHash = await bcrypt.hash(password, salt);
 
-      const defaultUser = new User({
-        username,
-        name,
-        password: passwordHash,
-        emailAddress,
-        location,
-      });
+  const defaultUser = new User({
+    username,
+    name,
+    password: passwordHash,
+    emailAddress,
+    provider: "DEFAULT",
+  });
 
-      await defaultUser.save();
+  await defaultUser.save();
 
-      return res.json({ message: "User created successfully", user: defaultUser });
-
-    default:
-      return res.status(400).json({ message: "Invalid provider" });
-  }
+  return res.json({ message: "User created successfully", user: defaultUser });
 });
 
 const updateUser = wrapper(async (req: Request, res: Response, next: NextFunction) => {

@@ -23,4 +23,6 @@ authRouter.get(
   }
 );
 
+authRouter.post("");
+
 export default authRouter;
