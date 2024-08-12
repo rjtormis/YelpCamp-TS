@@ -15,7 +15,8 @@ import Listing from "./pages/Dashboard/Listing/Listing";
 // import Campground from "./pages/Dashboard/Campground";
 import ListingsLayout from "./layouts/ListingsLayout";
 import Campground from "./pages/Dashboard/Campground";
-
+import { Provider } from "react-redux";
+import { store } from "@/state/store";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -38,7 +39,9 @@ function App() {
   return (
     <>
       {/* <ThemeProvider> */}
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
       {/* </ThemeProvider> */}
     </>
   );

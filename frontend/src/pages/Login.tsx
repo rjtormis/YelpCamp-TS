@@ -22,12 +22,16 @@ import { useToast } from "@/components/ui/use-toast";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { ServerError } from "@/interfaces/axios";
+import { useDispatch } from "react-redux";
+import { authenticate } from "@/state/auth/authSlice";
 // import { useState } from "react";
 
 function Login() {
   const { toast } = useToast();
   const currentDate = new Date().toLocaleString().replace(",", "");
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const initialSignUpValue: FormikSignup = {
     name: "",
@@ -77,7 +81,28 @@ function Login() {
   };
 
   const handleSignIn = async (state: FormikSignin) => {
-    console.log(state);
+    try {
+      const data = await axios.post("http://localhost:3000/auth", state);
+      const { user, access_token, refresh_token } = data.data;
+      dispatch(
+        authenticate({
+          user: user,
+          access_token,
+          refresh_token,
+        })
+      );
+      navigate("/dashboard");
+    } catch (e) {
+      const error = e as AxiosError<ServerError>;
+      const { status, message } = error.response!.data;
+      if (status === 404) {
+        toast({
+          title: "Oops!",
+          variant: "destructive",
+          description: `${message}`,
+        });
+      }
+    }
   };
 
   return (
