@@ -18,6 +18,7 @@ const userSchema = new Schema<UserInterface>(
     password: {
       type: String,
       default: "N/A",
+      select: false,
     },
     emailAddress: {
       type: String,

@@ -4,6 +4,7 @@ import wrapper from "@utilities/wrapper";
 import User from "models/user";
 import { CustomError } from "@utilities/general";
 import { Jwt } from "jsonwebtoken";
+import { generateJwtAccess, generateJwtRefresh } from "./auth";
 
 /**
  * Creates a new user
@@ -32,9 +33,17 @@ const createUser = wrapper(async (req: Request, res: Response, next: NextFunctio
     provider: "DEFAULT",
   });
 
+  const accessToken = generateJwtAccess(defaultUser.username);
+  const refreshToken = generateJwtRefresh(defaultUser.username);
+
   await defaultUser.save();
 
-  return res.json({ message: "User created successfully", user: defaultUser });
+  return res.json({
+    message: "User created successfully",
+    user: defaultUser,
+    access_token: accessToken,
+    refresh_token: refreshToken,
+  });
 });
 
 const updateUser = wrapper(async (req: Request, res: Response, next: NextFunction) => {

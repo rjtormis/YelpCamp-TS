@@ -25,23 +25,27 @@ export const generateJwtRefresh = (username: string) => {
 };
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
-  const { userNameOrEmail, password } = req.body;
+  const { usernameOrEmail, password } = req.body;
 
   const foundUsername = await User.findOne({
-    username: userNameOrEmail,
+    username: usernameOrEmail,
     provider: "DEFAULT",
-  });
+  }).select("+password");
 
-  const foundEmail = await User.findOne({ emailAddress: userNameOrEmail });
+  const foundEmail = await User.findOne({ emailAddress: usernameOrEmail }).select("+password");
 
   if (foundUsername) {
     const unhashPasswordUsername = await bcrypt.compare(password, foundUsername.password);
 
     if (unhashPasswordUsername) {
+      const userObject = foundUsername.toObject();
+
+      const { password, ...withoutPasswordUsername } = userObject;
+
       const accessToken = generateJwtAccess(foundUsername.username);
       const refreshToken = generateJwtRefresh(foundUsername.username);
       return res.json({
-        user: foundUsername,
+        user: withoutPasswordUsername,
         access_token: accessToken,
         refresh_token: refreshToken,
       });
@@ -52,10 +56,16 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     const unhashPasswordEmail = await bcrypt.compare(password, foundEmail.password);
 
     if (unhashPasswordEmail) {
+      // Convert the Mongoose document to a plain JavaScript object
+      const userObject = foundEmail.toObject();
+
+      // Destructure to remove the password field
+      const { password, ...withoutPasswordEmail } = userObject;
+
       const accessToken = generateJwtAccess(foundEmail.username);
       const refreshToken = generateJwtRefresh(foundEmail.username);
       return res.json({
-        user: foundUsername,
+        user: withoutPasswordEmail,
         access_token: accessToken,
         refresh_token: refreshToken,
       });
