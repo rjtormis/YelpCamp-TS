@@ -13,10 +13,13 @@ import Inbox from "./pages/Dashboard/Inbox";
 import Profile from "./pages/Dashboard/Profile";
 import Listing from "./pages/Dashboard/Listing/Listing";
 // import Campground from "./pages/Dashboard/Campground";
-import ListingsLayout from "./layouts/ListingsLayout";
+import ListingLayout from "./layouts/ListingLayout";
 import Campground from "./pages/Dashboard/Campground";
 import { Provider } from "react-redux";
-import { store } from "@/state/store";
+import { persistor, store } from "@/state/store";
+import { PersistGate } from "redux-persist/integration/react";
+import NewCampground from "./pages/Dashboard/NewCampground";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -26,9 +29,10 @@ const router = createBrowserRouter(
         <Route index element={<Main />} />
         <Route path="inbox" element={<Inbox />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="listings" element={<ListingsLayout />}>
+        <Route path="listings" element={<ListingLayout />}>
           <Route index element={<Listing />} />
           <Route path=":id" element={<Campground />} />
+          <Route path="new" element={<NewCampground />} />
         </Route>
       </Route>
     </>
@@ -40,7 +44,9 @@ function App() {
     <>
       {/* <ThemeProvider> */}
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <PersistGate loading={null} persistor={persistor}>
+          <RouterProvider router={router} />
+        </PersistGate>
       </Provider>
       {/* </ThemeProvider> */}
     </>

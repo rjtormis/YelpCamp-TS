@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-function ListingsLayout() {
+function ListingLayout() {
   return <Outlet />;
 }
 
-export default ListingsLayout;
+export default ListingLayout;

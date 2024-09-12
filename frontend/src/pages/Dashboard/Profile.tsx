@@ -10,10 +10,12 @@ import {
   Settings,
   ShieldCheck,
   Telescope,
+  UserRoundCog,
 } from "lucide-react";
+
+import { Formik, Form, Field, FieldProps } from "formik";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ListingCard from "@/components/listing-card";
-import { StarFilledIcon } from "@radix-ui/react-icons";
 
 import {
   Dialog,
@@ -27,8 +29,26 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
+import { FormikSignup } from "@/interfaces/formik";
+import { signUpSchema } from "@/schema/schema";
+import ReviewItemProfile from "@/components/custom/review-item";
 
 function Profile() {
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const initialProfileValues: FormikSignup = {
+    name: user.name,
+    emailAddress: user.emailAddress,
+    password: "",
+    confirmPassword: "",
+    provider: user.provider,
+    username: user.username,
+  };
+
+  const handleUpdateProfile = async () => {};
+
   return (
     <div className="w-full">
       <div className="px-4 mx-2 relative flex flex-col ">
@@ -60,9 +80,9 @@ function Profile() {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className="ml-4">
-                  <p className="text-lg"> Rafiqur Rahman</p>
-                  <p className="text-xs ">Cebu City</p>
-                  <p className="text-xs">Joined date: January 12 2024</p>
+                  <p className="text-lg"> {user.name}</p>
+                  <p className="text-xs ">{user.location}</p>
+                  <p className="text-xs">Joined date: {user.createdAt}</p>
                 </div>
               </div>
               <div className="flex gap-1">
@@ -166,10 +186,112 @@ function Profile() {
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Are you absolutely sure?</DialogTitle>
+                      <DialogTitle>
+                        <div className="flex">
+                          <UserRoundCog size={16} className="mr-2" /> Update Profile
+                        </div>
+                      </DialogTitle>
                       <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account and
-                        remove your data from our servers.
+                        <Formik
+                          initialValues={initialProfileValues}
+                          onSubmit={handleUpdateProfile}
+                          validationSchema={signUpSchema}
+                        >
+                          {({ isValid, values }) => {
+                            const isFieldEmpty = Object.values(values).some(
+                              (value) => value.trim() === ""
+                            );
+                            return (
+                              <Form className="p-2">
+                                <div className="">
+                                  <Field name="name">
+                                    {({ field, meta }: FieldProps) => (
+                                      <div className="space-y-1 mb-4">
+                                        <Label htmlFor="name">
+                                          Name
+                                          {meta.touched && meta.error ? (
+                                            <span className="text-red-500 ml-1">{meta.error}</span>
+                                          ) : null}
+                                        </Label>
+                                        <Input id="name" placeholder="Pedro Duarte" {...field} />
+                                      </div>
+                                    )}
+                                  </Field>
+
+                                  <Field name="username">
+                                    {({ field, meta }: FieldProps) => (
+                                      <div className="space-y-1 mb-4">
+                                        <Label htmlFor="username">
+                                          Username
+                                          {meta.touched && meta.error ? (
+                                            <span className="text-red-500 ml-1">{meta.error}</span>
+                                          ) : null}
+                                        </Label>
+                                        <Input
+                                          id="username"
+                                          type="username"
+                                          placeholder="@pedro"
+                                          {...field}
+                                        />
+                                      </div>
+                                    )}
+                                  </Field>
+                                </div>
+
+                                <Field name="emailAddress">
+                                  {({ field, meta }: FieldProps) => (
+                                    <div className="space-y-1 mb-4">
+                                      <Label htmlFor="emailAddress">
+                                        Email
+                                        {meta.touched && meta.error ? (
+                                          <span className="text-red-500 ml-1">{meta.error}</span>
+                                        ) : null}
+                                      </Label>
+                                      <Input id="emailAddress" type="email" {...field} />
+                                    </div>
+                                  )}
+                                </Field>
+
+                                <Field name="password">
+                                  {({ field, meta }: FieldProps) => (
+                                    <div className="space-y-1 mb-4">
+                                      <Label htmlFor="password">
+                                        Password
+                                        {meta.touched && meta.error ? (
+                                          <span className="text-red-500 ml-1">{meta.error}</span>
+                                        ) : null}
+                                      </Label>
+                                      <Input id="password" type="password" {...field} />
+                                    </div>
+                                  )}
+                                </Field>
+
+                                <Field name="confirmPassword">
+                                  {({ field, meta }: FieldProps) => (
+                                    <div className="space-y-1 mb-4">
+                                      <Label htmlFor="confirmPassword">
+                                        Confirm Password
+                                        {meta.touched && meta.error ? (
+                                          <span className="text-red-500 ml-1">{meta.error}</span>
+                                        ) : null}
+                                      </Label>
+                                      <Input id="confirmPassword" type="password" {...field} />
+                                    </div>
+                                  )}
+                                </Field>
+                                <Button
+                                  className={`w-full ${
+                                    isFieldEmpty || !isValid
+                                      ? "pointer-events-none opacity-[70%] hover:cursor-not-allowed"
+                                      : ""
+                                  } `}
+                                >
+                                  Sign up
+                                </Button>
+                              </Form>
+                            );
+                          }}
+                        </Formik>
                       </DialogDescription>
                     </DialogHeader>
                   </DialogContent>
@@ -178,25 +300,21 @@ function Profile() {
             </div>
 
             <div>
-              <p className="text-sm my-4 italic">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure quod placeat nobis,
-                eum assumenda aliquid, ducimus deserunt porro eius eveniet laborum cumque est
-                debitis dolorum quaerat, accusamus asperiores qui. Vel.
-              </p>
+              <p className="text-sm my-4 italic">{user.biography}</p>
             </div>
 
             <div className="grid grid-cols-3 gap-4 my-4">
               <div className="border border-solid p-4 text-center rounded-xl">
                 <Telescope className="m-auto" /> <p>Visited Campsite</p>
-                <p className="">89</p>
+                <p className="">{user.visitedCampsites.length}</p>
               </div>
               <div className="border border-solid p-4 text-center rounded-xl">
                 <List className="m-auto" /> <p>Listed Campsite</p>
-                <p className="">89</p>
+                <p className="">{user.campgrounds.length}</p>
               </div>
               <div className="border border-solid p-4 text-center rounded-xl">
                 <Crown className="m-auto" /> <p>Favorite Campsite</p>
-                <p className="">89</p>
+                <p className="">{user.favoriteCampsites.length}</p>
               </div>
             </div>
 
@@ -210,29 +328,11 @@ function Profile() {
               <div>
                 <h2>Recently Reviewed</h2>
                 <div className="mt-2">
-                  <div className="">
-                    <div className="flex justify-between">
-                      <div>
-                        <p className="text-sm">AJ Corporation</p>
-                        <p className="text-xs">Ownedby</p>
-                        <p className="text-xs">Ownedby</p>
-                      </div>
-                      <span className="flex">
-                        <StarFilledIcon />
-                        <StarFilledIcon />
-                        <StarFilledIcon />
-                        <StarFilledIcon />
-                        <StarFilledIcon />
-                      </span>
-                    </div>
-                    <div className="my-2">
-                      <p className="text-sm">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio eveniet nemo,
-                        aperiam dolor fugiat nobis vel expedita ducimus, quas veniam porro laborum
-                        harum rem! Eveniet facere corporis illum velit eaque.
-                      </p>
-                    </div>
-                  </div>
+                  {user.reviews.length >= 1 ? (
+                    <ReviewItemProfile name="test" date="test" rating={4.5} review="lorem?" />
+                  ) : (
+                    <div>No reviews</div>
+                  )}
                 </div>
               </div>
             </div>

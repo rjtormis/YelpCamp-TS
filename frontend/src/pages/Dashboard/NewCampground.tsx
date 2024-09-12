@@ -1,12 +1,9 @@
-import { BarChart, Eye, Flame, Leaf, Map, Star, Telescope } from "lucide-react";
-
-import image1 from "@/assets/landing-image-where-1.jpg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import InboxDialog from "@/components/custom/inbox-dialog";
-import ReviewItem from "@/components/custom/review";
+import { BarChart, Eye, Flame, Leaf, Map, Telescope } from "lucide-react";
+import React from "react";
 
-function Campground() {
+function NewCampground() {
   return (
     <div className="w-full">
       <div className="px-4 mx-2">
@@ -21,20 +18,20 @@ function Campground() {
         <div className="grid grid-cols-3 my-3 gap-4">
           <div className="col-span-2">
             <div>
-              <img src={image1} alt="" className="w-full h-[600px] rounded-t-xl" />
+              <img src="" alt="Image" className="w-full h-[600px] rounded-t-xl" />
             </div>
             <div className="flex my-4 gap-4">
               <div className=" w-[400px] h-[250px] ">
-                <img src={image1} alt="" className="rounded-bl-xl" />
+                <img src="" alt="" className="rounded-bl-xl" />
               </div>
               <div className=" w-[400px] h-[250px]">
-                <img src={image1} alt="" className="" />
+                <img src="" alt="" className="" />
               </div>
               <div className=" w-[400px] h-[250px]">
-                <img src={image1} alt="" className="" />
+                <img src="" alt="" className="" />
               </div>
               <div className=" w-[400px] h-[250px]">
-                <img src={image1} alt="" className="rounded-br-xl" />
+                <img src="" alt="" className="rounded-br-xl" />
               </div>
             </div>
 
@@ -61,12 +58,12 @@ function Campground() {
                   </div>
                 </div>
 
-                <div className="my-auto flex  gap-2">
+                {/* <div className="my-auto flex  gap-2">
                   <InboxDialog title="Message" to="Owner1" message="Send a message to Owner1" />
                   <Button size="sm">
                     <Star size={18} />
                   </Button>
-                </div>
+                </div> */}
               </div>
 
               <div className="my-4">
@@ -117,33 +114,18 @@ function Campground() {
                   <p>1000</p>
                 </div>
               </div>
-
-              <div>
-                <h2 className="my-2 font-bold text-lg">Reviews</h2>
-
-                <ul>
-                  <li>
-                    <ReviewItem
-                      rating={4.5}
-                      image={null}
-                      name="William ShakeSpeare"
-                      review="This is my review!"
-                    />
-                  </li>
-                </ul>
-              </div>
             </div>
 
             <div>
               <div className="w-full my-4 flex justify-center ">
                 <Button className="w-[70%] my-1" size="lg">
-                  Book
+                  List
                 </Button>
               </div>
 
               {/* <div className="text-center text-sm">
-                <p>Already visited this campsite? Leave a review</p>
-              </div> */}
+            <p>Already visited this campsite? Leave a review</p>
+          </div> */}
             </div>
           </div>
         </div>
@@ -152,4 +134,4 @@ function Campground() {
   );
 }
 
-export default Campground;
+export default NewCampground;

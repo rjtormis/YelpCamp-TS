@@ -9,14 +9,14 @@ import {
 import sampleimage from "@/assets/landing1.jpg";
 import { Badge } from "./ui/badge";
 import { DoubleArrowRightIcon, StarIcon } from "@radix-ui/react-icons";
-import { Fish, FlameKindling, Footprints, MapPin, Phone } from "lucide-react";
+import { BarChart, Fish, Flame, FlameKindling, Footprints, Map } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 function ListingCard() {
   return (
-    <Card className="border-none">
+    <Card className="border-none hover:cursor-pointer hover:bg-white hover:text-black">
       <CardHeader className="p-0">
         <CardTitle className="text-2xl text-center">
           <div className="relative">
@@ -32,20 +32,25 @@ function ListingCard() {
             </div>
           </div>
         </CardTitle>
-        <CardDescription className="flex justify-between">
+        <CardDescription className="flex justify-between px-4">
           <span className="text-lg font-bold">AJ Corporation</span>
           <span className="text-lg">199$</span>
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-0 my-2">
+      <CardContent className=" my-2 px-4 py-0">
         <div>
           <div className="flex">
-            <MapPin className="w-[18px] h-[18px] my-auto mr-1 text-primary" />
+            <Map className="w-[18px] h-[18px] my-auto mr-1 text-primary" />
             <span>Some location</span>
           </div>
           <div className="flex">
-            <Phone className="w-[18px] h-[18px] my-auto mr-1 text-primary" />
-            <span>09918626552</span>
+            <BarChart className="w-[18px] h-[18px] my-auto mr-1 text-primary" />
+            <span>Available</span>
+          </div>
+
+          <div className="flex">
+            <Flame className="w-[18px] h-[18px] my-auto mr-1 text-primary" />
+            <span>1000 favorites</span>
           </div>
         </div>
         <div className="my-4 flex justify-between">
@@ -57,7 +62,7 @@ function ListingCard() {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="p-0 justify-between mt-4">
+      <CardFooter className="px-4 py-2 justify-between mt-4">
         <div className="flex">
           <div>
             <Avatar>

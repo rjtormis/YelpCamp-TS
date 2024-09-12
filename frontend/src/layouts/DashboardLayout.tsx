@@ -5,11 +5,16 @@ import { Button } from "@/components/ui/button";
 import { AlignJustify, LayoutDashboard, LogOut, Mail, Users } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "@/state/auth/authSlice";
 
 function DashboardLayout() {
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const handleUserLogout = () => {
+    dispatch(logout());
     navigate("/");
   };
   return (

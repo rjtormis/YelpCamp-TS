@@ -1,17 +1,12 @@
-import { BarChart, Eye, Flame, Leaf, Map, Star, Telescope } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
 
-import image1 from "@/assets/landing-image-where-1.jpg";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import InboxDialog from "@/components/custom/inbox-dialog";
-import ReviewItem from "@/components/custom/review";
-
-function Campground() {
+function CampgroundSkeleton() {
   return (
     <div className="w-full">
       <div className="px-4 mx-2">
         <div className="flex">
-          <Flame size="20" className="my-auto " />
+          <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
+
           <div className="ml-2">
             <p className="my-auto flex font-bold text-lg">Camp name</p>
             <p className="text-xs">asdads</p>
@@ -21,26 +16,26 @@ function Campground() {
         <div className="grid grid-cols-3 my-3 gap-4">
           <div className="col-span-2">
             <div>
-              <img src={image1} alt="" className="w-full h-[600px] rounded-t-xl" />
+              <Skeleton className="w-full h-[600px] bg-zinc-700 rounded-t-xl" />
             </div>
             <div className="flex my-4 gap-4">
               <div className=" w-[400px] h-[250px] ">
-                <img src={image1} alt="" className="rounded-bl-xl" />
+                <Skeleton className=" bg-zinc-700 rounded-bl-xl" />
               </div>
               <div className=" w-[400px] h-[250px]">
-                <img src={image1} alt="" className="" />
+                <Skeleton className=" bg-zinc-700" />
               </div>
               <div className=" w-[400px] h-[250px]">
-                <img src={image1} alt="" className="" />
+                <Skeleton className=" bg-zinc-700" />
               </div>
               <div className=" w-[400px] h-[250px]">
-                <img src={image1} alt="" className="rounded-br-xl" />
+                <Skeleton className=" bg-zinc-700 rounded-bl-xl" />
               </div>
             </div>
 
             <div className="mt-8 flex hover:cursor-pointer hover:underline underline-offset-4">
-              <Eye size={14} className="my-auto mr-2" />
-              <p className="text-sm">View Location</p>
+              <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
+              <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
             </div>
           </div>
           <div className="flex flex-col justify-between">
@@ -48,73 +43,68 @@ function Campground() {
               <h1 className="text-lg font-bold">Listed by</h1>
               <div className="flex my-4 justify-between">
                 <div className="flex my-auto">
-                  <Avatar className="my-auto">
+                  {/* <Avatar className="my-auto">
                     <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+                  </Avatar> */}
 
                   <div className="ml-2 flex">
                     <div>
-                      <p className="text-sm">Owner1</p>
-                      <p className="text-xs">Cebu City</p>
+                      <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
+                      <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                     </div>
                   </div>
                 </div>
 
                 <div className="my-auto flex  gap-2">
-                  <InboxDialog title="Message" to="Owner1" message="Send a message to Owner1" />
-                  <Button size="sm">
-                    <Star size={18} />
-                  </Button>
+                  <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                 </div>
               </div>
 
               <div className="my-4">
                 <div className=" my-4 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores omnis quis
-                  laudantium quam amet corporis saepe! Obcaecati sequi laudantium sunt debitis
-                  similique perspiciatis architecto, aliquid expedita cumque maxime et! Autem.
+                  <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                 </div>
 
                 <div className="flex justify-between my-2">
                   <h2 className="text-sm flex">
-                    <BarChart size={18} className="mr-2 my-auto" /> Status
+                    <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                   </h2>
                   <p className="text-sm">Available</p>
                 </div>
 
                 <div className="flex justify-between my-2">
                   <h2 className="text-sm flex">
-                    <Map size={18} className="mr-2 my-auto" /> Location
+                    <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                   </h2>
-                  <p className="text-sm">Mountain View, CA</p>
+                  <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                 </div>
 
                 <div className="flex justify-between my-2">
                   <div>
                     <h2 className="text-sm flex">
-                      <Leaf size={16} className="mr-2 my-auto" /> Amenities
+                      <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                     </h2>
                   </div>
-                  <p>View</p>
+                  <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                 </div>
 
                 <div className="flex justify-between my-2">
                   <div>
                     <h2 className="text-sm flex">
-                      <Telescope size={16} className="mr-2 my-auto" /> Visit count
+                      <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                     </h2>
                   </div>
-                  <p>1000</p>
+                  <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                 </div>
 
                 <div className="flex justify-between">
                   <div>
                     <h2 className="text-sm flex">
-                      <Flame size={16} className="mr-2 my-auto" /> Favorite count
+                      <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                     </h2>
                   </div>
-                  <p>1000</p>
+                  <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                 </div>
               </div>
 
@@ -123,12 +113,7 @@ function Campground() {
 
                 <ul>
                   <li>
-                    <ReviewItem
-                      rating={4.5}
-                      image={null}
-                      name="William ShakeSpeare"
-                      review="This is my review!"
-                    />
+                    <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
                   </li>
                 </ul>
               </div>
@@ -136,14 +121,12 @@ function Campground() {
 
             <div>
               <div className="w-full my-4 flex justify-center ">
-                <Button className="w-[70%] my-1" size="lg">
-                  Book
-                </Button>
+                <Skeleton className="w-[20px] h-[200px] bg-zinc-700 rounded-t-lg" />
               </div>
 
               {/* <div className="text-center text-sm">
-                <p>Already visited this campsite? Leave a review</p>
-              </div> */}
+            <p>Already visited this campsite? Leave a review</p>
+          </div> */}
             </div>
           </div>
         </div>
@@ -152,4 +135,4 @@ function Campground() {
   );
 }
 
-export default Campground;
+export default CampgroundSkeleton;

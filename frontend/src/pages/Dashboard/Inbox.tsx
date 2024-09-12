@@ -1,16 +1,7 @@
 import InboxItem from "@/components/inbox-item";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  ArrowLeft,
-  CircleX,
-  Filter,
-  MailPlus,
-  MessageCircle,
-  RefreshCcw,
-  Reply,
-  Trash2,
-} from "lucide-react";
+import { Filter, MessageCircle, RefreshCcw } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -21,10 +12,25 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import InboxSpecificItem from "@/components/inbox-specific-item";
+import InboxItemSkeleton from "@/components/loader/inbox-item-skeleton";
+import InboxDialog from "@/components/custom/inbox-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
+import { useEffect, useState } from "react";
+import { Message } from "@/interfaces/ui";
+
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 function Inbox() {
   const inboxItems = [
     {
+      id: "1",
       name: "Alice Johnson",
       age: "28",
       subject: "Meeting Reminder",
@@ -32,6 +38,7 @@ function Inbox() {
       status: "read",
     },
     {
+      id: "2",
       name: "Bob Smith",
       age: "34",
       subject: "Project Update",
@@ -39,6 +46,7 @@ function Inbox() {
       status: "read",
     },
     {
+      id: "3",
       name: "Carol White",
       age: "45",
       subject: "Invoice Attached",
@@ -46,6 +54,7 @@ function Inbox() {
       status: "unread",
     },
     {
+      id: "4",
       name: "David Brown",
       age: "50",
       subject: "Vacation Request",
@@ -53,48 +62,29 @@ function Inbox() {
       status: "unread",
     },
     {
+      id: "5",
       name: "Eva Green",
       age: "30",
       subject: "Birthday Party",
       content: "You're invited to my birthday party next Saturday!",
       status: "read",
     },
-    // {
-    //   name: "Frank Black",
-    //   age: "39",
-    //   subject: "Team Lunch",
-    //   content: "We are planning a team lunch next Friday. Let me know if you can join.",
-    //   status: "read",
-    // },
-    // {
-    //   name: "Grace Blue",
-    //   age: "29",
-    //   subject: "Performance Review",
-    //   content: "Your performance review meeting is scheduled for next Monday.",
-    //   status: "unread",
-    // },
-    // {
-    //   name: "Henry Yellow",
-    //   age: "47",
-    //   subject: "Client Feedback",
-    //   content: "The client has provided feedback on the latest deliverable. Please review.",
-    //   status: "read",
-    // },
-    // {
-    //   name: "Ivy Brown",
-    //   age: "32",
-    //   subject: "Workshop Invitation",
-    //   content: "You are invited to attend a workshop on project management next week.",
-    //   status: "unread",
-    // },
-    // {
-    //   name: "Jack White",
-    //   age: "38",
-    //   subject: "Conference Details",
-    //   content: "Here are the details for the upcoming conference. Please register soon.",
-    //   status: "read",
-    // },
   ];
+  const [messages, setMessages] = useState<Message[] | null>(null);
+  const [message, setMessage] = useState<Message | null>(null);
+  const [messageId, setMessageId] = useState<string | null>(null);
+  const [viewMessageActive, setViewMessageActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMessages(inboxItems);
+  }, []);
+
+  useEffect(() => {
+    if (messageId !== null && messages && messages.length >= 1) {
+      const foundMsg = messages.find((message) => message.id === messageId) || null;
+      setMessage(foundMsg);
+    }
+  }, [messageId, messages]);
 
   return (
     <>
@@ -107,32 +97,66 @@ function Inbox() {
             </p>
             <span className="ml-4 text-xs m-auto">422 Unread</span>
             <div className="flex gap-1">
-              <Button size="sm" className="my-auto">
-                <MailPlus size="16" />
-              </Button>
-              {/* <Button size="sm" className="my-auto">
-                <Trash2 size="16" />
-              </Button> */}
-              <Button size="sm" className="my-auto">
-                <Filter size="16" />
-              </Button>
-              <Button size="sm" className="my-auto">
-                <RefreshCcw size="16" />
-              </Button>
+              <InboxDialog to={null} title="Send a message to" message="Send a message to" />
+
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button size="sm">
+                          <Filter size="16" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>Filter</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Billing</DropdownMenuItem>
+                  <DropdownMenuItem>Team</DropdownMenuItem>
+                  <DropdownMenuItem>Subscription</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button size="sm">
+                      <RefreshCcw size="16" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Refresh</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
           <Input className="my-2" />
           <div className="mt-4 overflow-auto">
-            {inboxItems.map((item, index) => (
-              <InboxItem
-                name={item.name}
-                age={item.age}
-                subject={item.subject}
-                content={item.content}
-                index={index}
-                status={item.status}
-              />
-            ))}
+            <InboxItemSkeleton />
+            {messages && messages.length >= 1
+              ? messages.map((item, index) => (
+                  <InboxItem
+                    key={item.id}
+                    id={item.id}
+                    name={item.name}
+                    age={item.age}
+                    subject={item.subject}
+                    content={item.content}
+                    index={index}
+                    status={item.status}
+                    setMessageId={setMessageId}
+                    setViewMessageActive={setViewMessageActive}
+                  />
+                ))
+              : null}
           </div>
           <div className="absolute left-[30%] bottom-1 my-4">
             <Pagination className="">
@@ -161,24 +185,9 @@ function Inbox() {
             </Pagination>
           </div>
         </div>
-        <div className="px-4 mx-2">
-          <div className="flex gap-1">
-            <Button size="sm" className="my-auto">
-              <ArrowLeft size="16" />
-            </Button>
-            <Button size="sm" className="my-auto">
-              <Trash2 size="16" />
-            </Button>
-            <Button size="sm" className="my-auto">
-              <Reply size="16" />
-            </Button>
-            <Button size="sm" className="my-auto">
-              <CircleX size="16" />
-            </Button>
-          </div>
-
-          <InboxSpecificItem />
-        </div>
+        {viewMessageActive && message !== null ? (
+          <InboxSpecificItem message={message} setViewMessageActive={setViewMessageActive} />
+        ) : null}
       </div>
     </>
   );

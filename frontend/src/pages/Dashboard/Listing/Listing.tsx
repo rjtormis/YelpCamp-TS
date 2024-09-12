@@ -3,6 +3,7 @@ import { DataTable } from "./data-table";
 import { Campsite, columns } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 function Listing() {
   const campsites: Campsite[] = [
     {
@@ -48,29 +49,35 @@ function Listing() {
   ];
   return (
     <div className="w-full">
-      <div className="px-4 mx-2">
-        <div className="">
-          <p className="my-auto flex font-bold">
-            <Tent size="16" className="my-auto mr-2" />
-            Campsite Listings
-          </p>
-          <p className="text-xs">All campsites you have listed.</p>
-        </div>
+      <div className="px-4 mx-2 grid grid-cols-2">
+        <div>
+          <div className="">
+            <p className="my-auto flex font-bold">
+              <Tent size="16" className="my-auto mr-2" />
+              Campsite Listings
+            </p>
+            <p className="text-xs">All campsites you have listed.</p>
+          </div>
 
-        <div className="flex my-4 gap-4 justify-between">
-          <Input placeholder="Search campground" />
-          <div className="flex gap-2">
-            <Button>
-              <Plus size={12} className="mr-1 my-auto" /> <span className="text-xs">New</span>
-            </Button>
-            <Button>
-              <Trash2 size={12} className="mr-1 my-auto" /> <span className="text-xs">Delete</span>
-            </Button>
+          <div className="flex my-4 gap-4 justify-between">
+            <Input placeholder="Search campground" />
+            <div className="flex gap-2">
+              <Link to="/dashboard/listings/new">
+                <Button>
+                  <Plus size={12} className="mr-1 my-auto" /> <span className="text-xs">New</span>
+                </Button>
+              </Link>
+              <Button>
+                <Trash2 size={12} className="mr-1 my-auto" />{" "}
+                <span className="text-xs">Delete</span>
+              </Button>
+            </div>
+          </div>
+          <div className="my-2">
+            <DataTable data={campsites} columns={columns} />
           </div>
         </div>
-        <div className="my-2">
-          <DataTable data={campsites} columns={columns} />
-        </div>
+        <div>Q</div>
       </div>
     </div>
   );
