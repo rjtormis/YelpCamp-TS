@@ -18,7 +18,6 @@ const createUser = wrapper(async (req: Request, res: Response, next: NextFunctio
   const { name, password, emailAddress, username } = req.body;
 
   const queryUser = await User.findOne({ emailAddress: emailAddress, provider: "DEFAULT" });
-
   if (queryUser)
     return next(new CustomError("Account already Exists. Please login or try again.", 409));
 
@@ -31,6 +30,7 @@ const createUser = wrapper(async (req: Request, res: Response, next: NextFunctio
     password: passwordHash,
     emailAddress,
     provider: "DEFAULT",
+    image: "",
   });
 
   const accessToken = generateJwtAccess(defaultUser.username);
@@ -44,6 +44,18 @@ const createUser = wrapper(async (req: Request, res: Response, next: NextFunctio
     access_token: accessToken,
     refresh_token: refreshToken,
   });
+});
+
+const getUser = wrapper(async (req: Request, res: Response, next: NextFunction) => {
+  const { id } = req.body;
+
+  const queryUser = await User.findById(id).select("+password");
+
+  if (!queryUser) {
+    return next(new CustomError("User does not exists.", 404));
+  }
+
+  return res.json({ user: queryUser });
 });
 
 const updateUser = wrapper(async (req: Request, res: Response, next: NextFunction) => {
@@ -72,4 +84,4 @@ const deleteUser = wrapper(async (req: Request, res: Response, next: NextFunctio
   return res.json({ message: "User deleted successfully." });
 });
 
-export { createUser, updateUser, deleteUser };
+export { createUser, updateUser, deleteUser, getUser };

@@ -1,4 +1,9 @@
-import { Schema, Document, Model } from "mongoose";
+import { Schema, Document, Types } from "mongoose";
+
+interface VisitedCampsite {
+  campground: Schema.Types.ObjectId;
+  lastVisited: Date;
+}
 
 export interface UserInterface extends Document {
   name: string;
@@ -10,4 +15,8 @@ export interface UserInterface extends Document {
   provider: string;
   username: string;
   biography: string;
+  campgrounds: Types.ObjectId[];
+  reviews: Types.ObjectId[];
+  visitedCampsites: VisitedCampsite[];
+  favoriteCampsites: Types.ObjectId[];
 }

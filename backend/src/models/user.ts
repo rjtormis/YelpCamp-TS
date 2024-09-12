@@ -36,6 +36,38 @@ const userSchema = new Schema<UserInterface>(
     biography: {
       type: String,
     },
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    campgrounds: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Campground",
+      },
+    ],
+    favoriteCampsites: [
+      {
+        campground: {
+          type: Schema.Types.ObjectId,
+          ref: "Campground",
+        },
+      },
+    ],
+    visitedCampsites: [
+      {
+        campground: {
+          type: Schema.Types.ObjectId,
+          ref: "Campground",
+        },
+        lastVisited: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
